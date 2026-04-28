@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CivicTrack - Issue Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "primary-fixed-dim": "#adc7f7",
+                        "primary-fixed": "#d6e3ff",
+                        "tertiary-fixed-dim": "#93ccff",
+                        "on-secondary-fixed-variant": "#005137",
+                        "on-tertiary-container": "#45a6eb",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-container": "#00714e",
+                        "inverse-primary": "#adc7f7",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#004b73",
+                        "tertiary-fixed": "#cce5ff",
+                        "on-primary-fixed": "#001b3c",
+                        "on-surface-variant": "#43474e",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed": "#001d31",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1a365d",
+                        "secondary-container": "#82f5c1",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#002045",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#455f88",
+                        "secondary-fixed-dim": "#68dba9",
+                        "secondary-fixed": "#85f8c4",
+                        "on-primary-container": "#86a0cd",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#dce9ff",
+                        "outline": "#74777f",
+                        "inverse-surface": "#213145",
+                        "surface": "#f8f9ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "tertiary": "#002339",
+                        "on-surface": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "secondary": "#006c4a",
+                        "tertiary-container": "#003959",
+                        "on-secondary-fixed": "#002114"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "stack-lg": "24px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "margin-tablet": "24px",
+                        "stack-sm": "4px",
+                        "stack-md": "12px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Public Sans"],
+                        "display-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "label-lg": ["Public Sans"],
+                        "headline-lg": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.25px", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                        "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9ff;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-slate-950 docked full-width top-0 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none sticky z-50">
+<div class="flex justify-between items-center w-full px-4 h-16 font-['Public_Sans'] antialiased tracking-tight">
+<div class="flex items-center gap-3 active:opacity-70 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-400" data-icon="location_city">location_city</span>
+<span class="text-lg font-bold text-blue-900 dark:text-white">CivicTrack</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-blue-900 dark:text-blue-400 p-2 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors rounded-full" data-icon="notifications">notifications</button>
+</div>
+</div>
+</header>
+<main class="pb-24 max-w-4xl mx-auto px-4 pt-6">
+<!-- Headline Section -->
+<div class="mb-gutter">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-stack-sm">Community Feed</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Stay updated on civic issues in your neighborhood.</p>
+</div>
+<!-- Filter Chips Bar -->
+<div class="flex gap-2 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 sticky top-[64px] bg-background/80 backdrop-blur-md z-40">
+<button class="flex items-center px-4 py-2 bg-primary-container text-on-primary-container rounded-full font-label-lg whitespace-nowrap">
+                All Issues
+            </button>
+<button class="flex items-center px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-container-high transition-colors">
+                Potholes
+            </button>
+<button class="flex items-center px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-container-high transition-colors">
+                Sanitation
+            </button>
+<button class="flex items-center px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-container-high transition-colors">
+                Lighting
+            </button>
+<button class="flex items-center px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-lg whitespace-nowrap hover:bg-surface-container-high transition-colors">
+                Environment
+            </button>
+</div>
+<!-- Feed List -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-gutter mt-4">
+<!-- Issue Card 1: Pothole -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col lg:flex-row shadow-sm hover:shadow-md transition-shadow group">
+<div class="lg:w-1/3 h-48 lg:h-auto overflow-hidden relative">
+<img alt="pothole on asphalt road" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="large deep pothole on a suburban asphalt street during daylight with rough textures and debris" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs_yrR6tX7P9SbFKKKPyKGd6PLQryCfX4EGHYLfpTIRUuM4QIIy1uvKeOelhECWmglGjwG2rtZDntGD0l1u0ZvCbK_hINb23CeWBT5kBfnuUeqptC10qH7TOHLG9AVDKjQL45ZV-pgaMKUNHteL501J-wiVXT8M5ghr-jZpFHD5HKPvQdYFPQvvDfL6fF7PYS9iheWpbg4veRo0A_Me1dvuYw4vlcURkJQ7AmlqvUgnf7JeqEG7xSs_7ee6C-KWT7g0qHukg3nXf0"/>
+<div class="absolute top-3 left-3 bg-error text-on-error px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">High Priority</div>
+</div>
+<div class="p-gutter flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-stack-sm">
+<h2 class="font-title-lg text-title-lg text-on-surface">Main St. Hazardous Pothole</h2>
+<span class="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-[12px] font-bold">Pending</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-md mb-stack-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span>421 Main Street, Downtown</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Large pothole forming near the pedestrian crossing. Causing significant traffic slowdowns and hazard for cyclists.</p>
+</div>
+<div class="mt-gutter flex items-center justify-between border-t border-outline-variant pt-4">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+<span class="text-[12px]">2 hours ago</span>
+</div>
+<button class="text-secondary font-label-lg flex items-center gap-1 hover:underline">
+                            View Details
+                            <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Issue Card 2: Broken Streetlight -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col lg:flex-row shadow-sm hover:shadow-md transition-shadow group">
+<div class="lg:w-1/3 h-48 lg:h-auto overflow-hidden relative">
+<img alt="broken street light" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="low angle shot of a vintage style street lamp post with a broken glass fixture against a dusky sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHLBDRmtLuTMJ7tndVP9yNWmeH49k1BuMh5vvpw8D4YiYyVxqbbDEeVjl26ja5Q_LfEizFPaqb_HwhLpOzIzwSDunjQxpGo6ibraiUS8TEVb2Zi-IHU6n3r08xgeL9LqPeYjYtKfpQXnfp2mp9boIKiRQZo5LF-SZVC9BiH2Znuq1AkUhWrFOejLC0Xd2QXuShjOhrM0kXzQnaHhOP619kLvpPY0ndYmziHv2ir1pIFnVz8MEOmIFgCtFjrxK9sF5b_qbtxj3u0yk"/>
+</div>
+<div class="p-gutter flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-stack-sm">
+<h2 class="font-title-lg text-title-lg text-on-surface">Broken Streetlight - Oak Ave</h2>
+<span class="bg-blue-100 text-blue-900 px-3 py-1 rounded-full text-[12px] font-bold">In Progress</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-md mb-stack-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span>Oak Avenue near Central Park</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Entire block is dark because of this faulty lamp. Resident safety concern after 6 PM.</p>
+</div>
+<div class="mt-gutter flex items-center justify-between border-t border-outline-variant pt-4">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+<span class="text-[12px]">5 hours ago</span>
+</div>
+<button class="text-secondary font-label-lg flex items-center gap-1 hover:underline">
+                            View Details
+                            <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Issue Card 3: Garbage Dumping -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col lg:flex-row shadow-sm hover:shadow-md transition-shadow group">
+<div class="lg:w-1/3 h-48 lg:h-auto overflow-hidden relative">
+<img alt="piles of trash bags" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="heaps of overfilled black garbage bags piled on a city sidewalk next to a metal dumpster in bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc5qrNEktVeULEMKdppFreKfkPzpZNp3FqyiyMmkagtTMVNwJpml8QtGer-s9KE1RjvGrjWfF0dXDDJEFBzdkcVmhdexCS62PfGYQs0nFTYMkYvNcVYV2Nn2sYwDiQQIGFOG3hBVdkrTwwW3YmwF56Pm4wAYp6UujA5_YzjniKhGoZvicnUtz1bkxs-JwiRzMC1xlv6iDVYivtqEsQEmcRO6j-rl9VsqsurhuDIb07MxmRZg-EKGQA6PJWqOzyEnp8SdnTSc_cJAw"/>
+</div>
+<div class="p-gutter flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-stack-sm">
+<h2 class="font-title-lg text-title-lg text-on-surface">Illegal Dumping Alleyway</h2>
+<span class="bg-emerald-100 text-emerald-900 px-3 py-1 rounded-full text-[12px] font-bold">Resolved</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-md mb-stack-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span>Behind 12th Street Plaza</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Several large bags of construction waste and old furniture left in the public alley.</p>
+</div>
+<div class="mt-gutter flex items-center justify-between border-t border-outline-variant pt-4">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+<span class="text-[12px]">Yesterday</span>
+</div>
+<button class="text-secondary font-label-lg flex items-center gap-1 hover:underline">
+                            View History
+                            <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 bg-secondary-container text-on-secondary-container shadow-lg rounded-2xl p-4 flex items-center gap-2 active:scale-95 transition-transform z-50">
+<span class="material-symbols-outlined font-variation-settings" data-icon="add_box" style="font-variation-settings: 'FILL' 1;">add_box</span>
+<span class="font-label-lg">Report Issue</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-2 pb-safe px-2 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-[0_-1px_3px_0_rgba(0,0,0,0.05)] rounded-t-lg">
+<a class="flex flex-col items-center justify-center bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100 rounded-2xl px-5 py-1 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-400" data-icon="rss_feed">rss_feed</span>
+<span class="font-['Public_Sans'] text-[11px] font-medium">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-1 hover:text-blue-700 dark:hover:text-blue-300 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-400" data-icon="map">map</span>
+<span class="font-['Public_Sans'] text-[11px] font-medium">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-1 hover:text-blue-700 dark:hover:text-blue-300 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-400" data-icon="add_box">add_box</span>
+<span class="font-['Public_Sans'] text-[11px] font-medium">Report</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-1 hover:text-blue-700 dark:hover:text-blue-300 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-400" data-icon="assignment">assignment</span>
+<span class="font-['Public_Sans'] text-[11px] font-medium">My Issues</span>
+</a>
+</nav>
+</body></html>

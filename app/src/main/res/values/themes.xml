@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CivicTrack" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/civic_surface</item>
+        <item name="colorPrimary">@color/civic_primary</item>
+        <item name="colorPrimaryDark">@color/civic_primary_dark</item>
+        <item name="colorSecondary">@color/civic_accent</item>
+    </style>
+
+    <style name="Theme.CivicTrack" parent="Base.Theme.CivicTrack" />
+</resources>

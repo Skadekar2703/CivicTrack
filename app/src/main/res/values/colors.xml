@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="civic_ink">#E6EDF3</color>
+    <color name="civic_on_surface">#DFE3E7</color>
+    <color name="civic_primary">#59C8FF</color>
+    <color name="civic_primary_dark">#1E5FD6</color>
+    <color name="civic_accent">#4FC3F7</color>
+    <color name="civic_surface">#0F1417</color>
+    <color name="civic_card">#171C1F</color>
+    <color name="civic_muted">#AAB6BF</color>
+    <color name="civic_surface_low">#1B2023</color>
+    <color name="civic_surface_container">#171C22</color>
+    <color name="civic_outline">#30363D</color>
+    <color name="civic_secondary">#34D17B</color>
+    <color name="civic_error">#FF8E85</color>
+    <color name="civic_warning">#F4AB52</color>
+    <color name="civic_warning_bg">#3A2B28</color>
+    <color name="civic_success">#4ADE80</color>
+    <color name="civic_success_bg">#183325</color>
+    <color name="civic_primary_soft">#223244</color>
+    <color name="civic_surface_muted">#262B2E</color>
+    <color name="civic_pending_bg">#17304A</color>
+    <color name="civic_pending_text">#8ED3FF</color>
+    <color name="civic_progress_bg">#1F2733</color>
+    <color name="civic_resolved_bg">#153224</color>
+</resources>

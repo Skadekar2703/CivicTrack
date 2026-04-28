@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f8f9ff",
+                    "primary-fixed-dim": "#adc7f7",
+                    "primary-fixed": "#d6e3ff",
+                    "tertiary-fixed-dim": "#93ccff",
+                    "on-secondary-fixed-variant": "#005137",
+                    "on-tertiary-container": "#45a6eb",
+                    "surface-dim": "#cbdbf5",
+                    "on-secondary-container": "#00714e",
+                    "inverse-primary": "#adc7f7",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#d3e4fe",
+                    "on-tertiary-fixed-variant": "#004b73",
+                    "tertiary-fixed": "#cce5ff",
+                    "on-primary-fixed": "#001b3c",
+                    "on-surface-variant": "#43474e",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary-fixed": "#001d31",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1a365d",
+                    "secondary-container": "#82f5c1",
+                    "outline-variant": "#c4c6cf",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#002045",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-tint": "#455f88",
+                    "secondary-fixed-dim": "#68dba9",
+                    "secondary-fixed": "#85f8c4",
+                    "on-primary-container": "#86a0cd",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#dce9ff",
+                    "outline": "#74777f",
+                    "inverse-surface": "#213145",
+                    "surface": "#f8f9ff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e5eeff",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "tertiary": "#002339",
+                    "on-surface": "#0b1c30",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#0b1c30",
+                    "secondary": "#006c4a",
+                    "tertiary-container": "#003959",
+                    "on-secondary-fixed": "#002114"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "stack-lg": "24px",
+                    "base": "8px",
+                    "gutter": "16px",
+                    "margin-tablet": "24px",
+                    "stack-sm": "4px",
+                    "stack-md": "12px"
+            },
+            "fontFamily": {
+                    "title-lg": ["Public Sans"],
+                    "display-lg": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "label-lg": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"]
+            },
+            "fontSize": {
+                    "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.25px", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.map-container {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuALZqK8V4j8kMoPNm6zXX8A3S1mVUEcWM4eHLKHWF57VLB_h9dunmjwuA7DiqoJBsWj4taDCow9BjGL7QIQdKRjopeIeCNsoVnPQ7mnBuy9XSd5pY3mHUKgjRt35BBTetGU7LR9Gh21FHofe9l8Nu3383uTcnPd6lP5aahOt0PjiapfP837KdGt64w6ZizwFvi_s5jZ94bFbGEKkzW5untxEQ4oZbYuNaa4WHiKUgw-jV9h4Yk2K5MJLV70J8kPrEJ4dpFzReoPWQU);
+    background-size: cover;
+    background-position: center
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body-md text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-slate-950 font-['Public_Sans'] antialiased tracking-tight shadow-sm dark:shadow-none border-b border-slate-200 dark:border-slate-800 docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-4 h-16">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-400" data-icon="location_city">location_city</span>
+<h1 class="text-lg font-bold text-blue-900 dark:text-white">CivicTrack</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors p-2 rounded-full active:opacity-70 transition-opacity">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of a middle-aged man in a clean casual shirt, soft studio lighting, high quality photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5Bg-ut5ZVKIDKUgurA_Qvhh3IWiydtNzsHIWkbtyS3dZLSdPHBX4xoQirDRL4KCC_0lF6GZQcqzcs0XMNbkednsceD3nc65SRyEzGA26ldQ6MSOqb8lGSYZcY3n-iV2roTtvXTDCiFOBIKuHLBNU7xJ_hN8H8OHIYi0cG4h3edY94XMECSGRKjHcxppJ2LXbb8Ql_RNuvWamOiTEKWs6GvoHWIx8vApbSZBwgYiL48-Ozqo2YzSggO4fZbwieYFldy2_DG8K_plI"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content: Map View -->
+<main class="flex-1 relative overflow-hidden flex flex-col">
+<!-- Floating Search Bar -->
+<div class="absolute top-4 left-0 right-0 z-40 px-4 flex justify-center">
+<div class="w-full max-w-lg bg-white/90 backdrop-blur-lg rounded-full shadow-lg border border-outline-variant/30 flex items-center px-4 h-12">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body-md placeholder:text-outline ml-2" placeholder="Search issues, streets, or keywords..." type="text"/>
+<button class="p-2 hover:bg-surface-container rounded-full">
+<span class="material-symbols-outlined text-outline" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Map Canvas (Simulated) -->
+<div class="flex-1 w-full h-full map-container relative" data-location="San Francisco" style="">
+<!-- Custom Markers -->
+<!-- Marker 1: Pothole (High Priority) -->
+<div class="absolute top-[30%] left-[40%] cursor-pointer group">
+<div class="relative flex flex-col items-center">
+<div class="bg-error text-white p-2 rounded-full shadow-md scale-100 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="report" data-weight="fill" style="font-variation-settings: 'FILL' 1;">report</span>
+</div>
+<div class="w-1 h-3 bg-error -mt-1 shadow-sm"></div>
+</div>
+</div>
+<!-- Marker 2: Street Light (Medium Priority) -->
+<div class="absolute top-[55%] left-[25%] cursor-pointer group">
+<div class="relative flex flex-col items-center">
+<div class="bg-amber-500 text-white p-2 rounded-full shadow-md scale-100 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="light_off" data-weight="fill" style="font-variation-settings: 'FILL' 1;">light_off</span>
+</div>
+<div class="w-1 h-3 bg-amber-500 -mt-1 shadow-sm"></div>
+</div>
+</div>
+<!-- Marker 3: Graffiti (Low Priority) -->
+<div class="absolute top-[45%] left-[65%] cursor-pointer group">
+<div class="relative flex flex-col items-center">
+<div class="bg-secondary text-white p-2 rounded-full shadow-md scale-100 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="format_paint" data-weight="fill" style="font-variation-settings: 'FILL' 1;">format_paint</span>
+</div>
+<div class="w-1 h-3 bg-secondary -mt-1 shadow-sm"></div>
+</div>
+</div>
+<!-- Floating Action Button (FAB) -->
+<div class="absolute bottom-24 right-4 z-40">
+<button class="bg-secondary-container text-on-secondary-container w-14 h-14 rounded-xl shadow-lg flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="add_location_alt" data-weight="fill" style="font-variation-settings: 'FILL' 1;">add_location_alt</span>
+</button>
+</div>
+<!-- Issue Detail Overlay (Simulated Click State) -->
+<div class="absolute bottom-24 left-4 right-4 z-40 md:left-auto md:w-96 md:right-4">
+<div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-outline-variant overflow-hidden">
+<div class="relative h-32 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Detailed view of a large pothole on an urban asphalt road with street markings visible, bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg9JVmnLgD_IQh86g96XMoCy2LpEOx1is_6eBwxGanO1NJxja7afK7HA1u01uC2c4wzs-l6KAkuCt9hZ6DCiGJ6mAXvCZFgvGoiPMSbQKavRK1BF4Kf8FAdKd7TSwaHckGwTtrrrFKiVFWNxdEuDLYbE3KBiCS9muflrXumx41onIG8pIqkn3DMvAlcAmzuP01BjaxYN8-OjjaEnZdvP-owQi00Qn4Mu0czOQpKWAJprTUnLSnfPFRihyvdrrMYmoAkX1Iry3rBEY"/>
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="bg-error/90 text-white text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider">High Priority</span>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-title-lg text-on-surface">Severe Pothole</h3>
+<p class="text-label-md text-outline">Reported 2 hours ago by @jdoe</p>
+</div>
+<span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded font-bold">PENDING</span>
+</div>
+<div class="flex items-center gap-2 text-label-lg text-on-surface-variant mb-4">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span>245 Market Street, North District</span>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-on-primary py-2 rounded-lg font-label-lg active:opacity-90 transition-opacity">
+                                View Details
+                            </button>
+<button class="px-3 border border-outline rounded-lg flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-outline" data-icon="share">share</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Map Controls -->
+<div class="absolute bottom-48 right-4 flex flex-col gap-2">
+<button class="bg-white rounded-lg shadow w-10 h-10 flex items-center justify-center text-outline hover:text-primary">
+<span class="material-symbols-outlined" data-icon="my_location">my_location</span>
+</button>
+<button class="bg-white rounded-lg shadow w-10 h-10 flex items-center justify-center text-outline hover:text-primary">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-2 pb-safe px-2 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-[0_-1px_3px_0_rgba(0,0,0,0.05)] rounded-t-lg">
+<!-- Feed Tab -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-1 hover:text-blue-700 dark:hover:text-blue-300 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="rss_feed">rss_feed</span>
+<span class="font-['Public_Sans'] text-[11px] font-medium mt-1">Feed</span>
+</a>
+<!-- Map Tab (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100 rounded-2xl px-5 py-1 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="map" data-weight="fill" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-['Public_Sans'] text-[11px] font-medium mt-1">Map</span>
+</a>
+<!-- Report Tab -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-1 hover:text-blue-700 dark:hover:text-blue-300 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="font-['Public_Sans'] text-[11px] font-medium mt-1">Report</span>
+</a>
+<!-- My Issues Tab -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-1 hover:text-blue-700 dark:hover:text-blue-300 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-['Public_Sans'] text-[11px] font-medium mt-1">My Issues</span>
+</a>
+</nav>
+</body></html>

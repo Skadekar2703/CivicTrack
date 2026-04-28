@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CivicTrack - Community Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#faa443",
+                        "primary": "#9adbff",
+                        "primary-fixed": "#c2e8ff",
+                        "secondary-fixed": "#d1e4ff",
+                        "on-primary-fixed": "#001e2b",
+                        "on-primary-container": "#004e69",
+                        "surface-container-highest": "#303539",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#3e484f",
+                        "background": "#0f1417",
+                        "on-secondary-fixed-variant": "#00497d",
+                        "tertiary-fixed": "#ffdcbd",
+                        "tertiary": "#ffc893",
+                        "primary-fixed-dim": "#75d1ff",
+                        "on-tertiary-container": "#6b3d00",
+                        "error-container": "#93000a",
+                        "secondary-container": "#1e95f2",
+                        "on-tertiary-fixed-variant": "#693c00",
+                        "surface-container-lowest": "#0a0f12",
+                        "surface-container": "#1b2023",
+                        "surface": "#0f1417",
+                        "secondary-fixed-dim": "#9ecaff",
+                        "surface-dim": "#0f1417",
+                        "outline": "#889299",
+                        "surface-container-low": "#171c1f",
+                        "on-secondary": "#003258",
+                        "on-secondary-fixed": "#001d36",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#002b4d",
+                        "on-tertiary": "#4a2800",
+                        "on-primary-fixed-variant": "#004d67",
+                        "on-background": "#dfe3e7",
+                        "secondary": "#9ecaff",
+                        "on-surface": "#dfe3e7",
+                        "inverse-surface": "#dfe3e7",
+                        "inverse-primary": "#006688",
+                        "surface-variant": "#303539",
+                        "surface-bright": "#353a3d",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb86f",
+                        "surface-tint": "#75d1ff",
+                        "primary-container": "#4fc3f7",
+                        "on-tertiary-fixed": "#2c1600",
+                        "on-primary": "#003548",
+                        "surface-container-high": "#262b2e",
+                        "on-surface-variant": "#bdc8d0",
+                        "inverse-on-surface": "#2c3134"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "margin": "24px",
+                        "xs": "4px",
+                        "base": "8px",
+                        "sm": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "h1": ["Public Sans"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "h2": ["Public Sans"],
+                        "h3": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h2": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #30363D;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#161B22]/80 backdrop-blur-xl border-b border-[#30363D]">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-[#4FC3F7]">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up professional headshot of a person with friendly expression, soft studio lighting, neutral background, modern corporate style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCluv9GkeHENz-IBaOEsyrm93f_ppkjnKfgtcRjzT8TmPapArHGpTkXSfMUH-Q4SvfZEei84DKnH2wm_Ba-XXL8hHOgcwNENe8QHSZ0aBy_8sfsQWU8O_om53Hw2vTMiSu_ytX518L9MsMgU6mobnMH4MvLU0Z6NDLKRDlaljvA5XG_8X1i_z3yl1E3xi-NAAqXp-VQEcHAgVPFpkC8o70OVxqlbevw1wmVMfaV09onZ2kTxNu9lYeqhBGVWooeoYRlzA17uVJyxzsl"/>
+</div>
+<span class="text-xl font-black text-[#4FC3F7] tracking-tighter font-['Public_Sans']">CivicTrack</span>
+</div>
+<button class="text-gray-400 hover:opacity-80 transition-opacity active:scale-95 duration-100">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="mt-20 px-margin space-y-lg">
+<!-- Search and Filter Section -->
+<div class="space-y-md">
+<div class="relative group">
+<div class="absolute inset-0 bg-[#2196F3]/10 blur-xl rounded-xl group-focus-within:bg-[#2196F3]/20 transition-all"></div>
+<div class="relative flex items-center bg-surface-container-high border border-outline-variant rounded-xl px-4 py-3 shadow-inner">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface placeholder-outline w-full font-body-md" placeholder="Search community issues..." type="text"/>
+</div>
+</div>
+<!-- Category Chips -->
+<div class="flex gap-sm overflow-x-auto pb-2 no-scrollbar">
+<button class="px-lg py-2 rounded-full bg-secondary-container text-on-secondary-container font-label-md whitespace-nowrap">All Issues</button>
+<button class="px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md whitespace-nowrap hover:bg-surface-container-high transition-colors">Infrastructure</button>
+<button class="px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md whitespace-nowrap hover:bg-surface-container-high transition-colors">Safety</button>
+<button class="px-lg py-2 rounded-full bg-surface-container border border-outline-variant text-on-surface-variant font-label-md whitespace-nowrap hover:bg-surface-container-high transition-colors">Sanitation</button>
+</div>
+</div>
+<!-- Issues Feed (Asymmetric/Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Featured Large Issue Card -->
+<div class="md:col-span-2 glass-card rounded-2xl p-lg space-y-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-lg">
+<span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error/15 text-error font-label-sm border border-error/20">
+<span class="status-dot bg-error shadow-[0_0_8px_rgba(255,180,171,0.6)]"></span>
+                        High Priority
+                    </span>
+</div>
+<div class="flex flex-col md:flex-row gap-lg">
+<div class="w-full md:w-1/3 aspect-video md:aspect-square rounded-xl overflow-hidden">
+<img alt="Broken Pavement" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Deep structural crack in urban asphalt road at dusk, dramatic street lighting casting long shadows, gritty city texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJMq6ej2D3w53CaKyFG_QXydpyuDap6PeT-u4rl7Vr_1Csz4yA1Q0l_wFksF63ZVjVwIj7Jkmc-z01XN_a_brb6xCqbcRaZL3OJuXLh8JBmfpqN28g26e-HolW0unpTHKUTO5PulW86EQHtMQ2L8Jdl22gKKZ0qXuzQ_hREZ9m3I98FULoQVcP9Xlnpd3boFLgsWDjDikLeszmc7k2oS544dwDVwWeeXuidA7AH2fO-OW-sVVlFJ4_ahFzKcOH_O07I85FYAeMBE6D"/>
+</div>
+<div class="flex-1 space-y-base">
+<div class="flex items-center gap-2 text-primary font-label-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+                            8th Avenue &amp; Main St.
+                        </div>
+<h2 class="font-h3 text-on-surface">Major Pavement Fissure</h2>
+<p class="text-on-surface-variant text-body-md line-clamp-3">
+                            A significant crack has developed across the north-bound lane. This poses a severe risk to cyclists and high-speed commuters. Reported 2 hours ago.
+                        </p>
+<div class="flex items-center justify-between pt-md">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-surface-container-highest flex items-center justify-center text-[10px] font-bold">12+</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-surface-container-highest">
+<img class="w-full h-full rounded-full object-cover" data-alt="Portrait of a young man with glasses and casual wear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfCmr12hk-RnpIW9e5ul1eW88iaOqY0m26QVeXfBmP-woaAD0zWopUJmNvHtao8OD412yCMFew6zgq-F8tSvfCfnnAdlumuxovpj9eZkEkIzPJnZ-llxYxturCT6lctwH-Z-3TxF0-aHLqDhm9cZ0YvYoCUQVbXTMcppXBc7tIccsrGfU8Ozbcy5dsOjs9PCnxZZ8InH3ICFumZZ_3TTqotrB4gEzm7JR-VdYzBlITAbuq5qm_C7hGJAmdTopHbRGnG7yUKb7310gb"/>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm">In Review</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Standard Card 1 -->
+<div class="glass-card rounded-2xl p-md space-y-md">
+<div class="flex justify-between items-start">
+<span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-tertiary-container/15 text-tertiary-container font-label-sm border border-tertiary-container/20">
+<span class="status-dot bg-tertiary-container"></span>
+                        Medium Priority
+                    </span>
+<span class="text-outline font-label-sm">1d ago</span>
+</div>
+<div class="aspect-video w-full rounded-xl overflow-hidden bg-surface-container-low">
+<img alt="Street Light Issue" class="w-full h-full object-cover" data-alt="Flickering urban street lamp against a dark moody twilight sky in a residential neighborhood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmUUMSHMKpE4jY7dgGRHTEXkJMR5QbEmOX4xJZpL7X6eOW3JjfxQ4OF_k_ukqZD6QAD66nm0qO5JtLr7LUK42-bTePH7tp38Tt1FP3nkSR1qjXGdcx3WfFkTSXen26UYiWrbNYZy5KMewyDulYNBndVO-MIdl-fj4iB5caE-A2fy8oLFMBlucBWXiqJqaaUhuAt-ruBfH5__pjIH3ksrmPzrK0gdSdudA5I1DRytkPWEdvsOuSadOdR1YkjdN2vuddsPM1gAVAUocJ"/>
+</div>
+<h3 class="font-h3 text-lg text-on-surface">Flickering Street Lamp</h3>
+<p class="text-on-surface-variant text-label-md">Unit #442 on Oak Street is malfunctioning, creating dark spots at night.</p>
+<div class="flex items-center justify-between pt-sm">
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="thumb_up">thumb_up</span>
+<span class="font-label-sm">24</span>
+</button>
+<button class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-sm">8</span>
+</button>
+</div>
+<span class="px-3 py-1 rounded-full bg-green-500/10 text-green-400 font-label-sm">Resolved</span>
+</div>
+</div>
+<!-- Standard Card 2 -->
+<div class="glass-card rounded-2xl p-md space-y-md">
+<div class="flex justify-between items-start">
+<span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error/15 text-error font-label-sm border border-error/20">
+<span class="status-dot bg-error"></span>
+                        High Priority
+                    </span>
+<span class="text-outline font-label-sm">4h ago</span>
+</div>
+<div class="aspect-video w-full rounded-xl overflow-hidden bg-surface-container-low">
+<img alt="Illegal Dumping" class="w-full h-full object-cover" data-alt="Heaps of discarded electronics and furniture in a narrow alleyway with harsh direct sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAPDFhALrBRMV1yjtN_J7FlO5GlmYCOMgM_WaXl2vPaIU25LCyVfV4PZDvjXZUwtHc9lJmfRgIdAugitoxAkVuBgFhsSI9FfUh-jLYsGudkXmoi8NyRPAYk-c83vO_5x8CdDirratI-3WnixYb7t9nfzekJf4Ic1Jo8wRiZD0Lf6tn7172w5PHExHU2L0i1TC-FMaZAXnPsTEUVNZGkKYCtdfd_AdoB69vSIb3FqnfA7oyBV-Fi11Q3fiJXea4k_57L62UuiVnqL3W"/>
+</div>
+<h3 class="font-h3 text-lg text-on-surface">Illegal Dumping Site</h3>
+<p class="text-on-surface-variant text-label-md">Large debris blocking the alleyway behind the central market.</p>
+<div class="flex items-center justify-between pt-sm">
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="thumb_up">thumb_up</span>
+<span class="font-label-sm">42</span>
+</button>
+<button class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-sm">15</span>
+</button>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container/10 text-secondary-container font-label-sm">Scheduled</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 h-20 pb-safe bg-[#161B22]/80 backdrop-blur-xl border-t border-[#30363D] shadow-[0_-4px_20px_rgba(0,0,0,0.4)] rounded-t-2xl">
+<!-- Active Tab: Issues -->
+<a class="flex flex-col items-center justify-center text-[#4FC3F7] scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="format_list_bulleted" style="font-variation-settings: 'FILL' 1;">format_list_bulleted</span>
+<span class="font-['Public_Sans'] text-[11px] font-semibold uppercase tracking-wider mt-1">Issues</span>
+</a>
+<!-- Center Action: Report -->
+<a class="flex flex-col items-center justify-center text-gray-500 hover:text-[#4FC3F7]/80 transition-colors" href="#">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary shadow-lg shadow-primary/20 -mt-8 active:scale-90 duration-200">
+<span class="material-symbols-outlined text-2xl" data-icon="add">add</span>
+</div>
+<span class="font-['Public_Sans'] text-[11px] font-semibold uppercase tracking-wider mt-1">Report</span>
+</a>
+<!-- Map Tab -->
+<a class="flex flex-col items-center justify-center text-gray-500 hover:text-[#4FC3F7]/80 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Public_Sans'] text-[11px] font-semibold uppercase tracking-wider mt-1">Map</span>
+</a>
+</nav>
+</body></html>

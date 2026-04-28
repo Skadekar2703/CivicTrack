@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CivicTrack</string>
+    <string name="report_issue">Report Issue</string>
+
+    <string-array name="issue_categories">
+        <item>Roads &amp; Potholes</item>
+        <item>Sanitation &amp; Waste</item>
+        <item>Street Lighting</item>
+        <item>Water &amp; Sewage</item>
+        <item>Parks &amp; Recreation</item>
+        <item>Other Community Issues</item>
+    </string-array>
+</resources>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/civic_surface"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:background="@color/civic_surface_container"
+        android:elevation="3dp"
+        android:paddingHorizontal="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/topBrandIcon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_civic_brand" />
+
+            <TextView
+                android:id="@+id/topTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="CivicTrack"
+                android:textColor="@color/civic_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/topBellHost"
+                android:layout_width="42dp"
+                android:layout_height="42dp">
+
+                <ImageView
+                    android:id="@+id/topBell"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Notifications"
+                    android:src="@drawable/ic_bell" />
+
+                <View
+                    android:id="@+id/topBellDot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="7dp"
+                    android:background="@drawable/bg_notification_dot" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/topAvatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/bg_avatar_chip"
+                android:gravity="center"
+                android:text="AM"
+                android:textColor="@color/civic_on_surface"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/contentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@color/civic_surface_container"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:id="@+id/feedTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp">
+
+            <ImageView
+                android:id="@+id/feedIcon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="Feed"
+                android:src="@drawable/ic_feed" />
+
+            <TextView
+                android:id="@+id/feedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="ISSUES"
+                android:textColor="@color/civic_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/reportTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp">
+
+            <FrameLayout
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/bg_report_fab">
+
+                <ImageView
+                    android:id="@+id/reportIcon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Report"
+                    android:src="@drawable/ic_report" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/reportLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="REPORT"
+                android:textColor="@color/civic_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mapTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp">
+
+            <ImageView
+                android:id="@+id/mapIcon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="Map"
+                android:src="@drawable/ic_map" />
+
+            <TextView
+                android:id="@+id/mapLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="MAP"
+                android:textColor="@color/civic_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

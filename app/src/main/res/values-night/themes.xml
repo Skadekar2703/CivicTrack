@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CivicTrack" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/civic_ink</item>
+        <item name="colorPrimary">@color/civic_primary</item>
+        <item name="colorPrimaryDark">@color/civic_primary_dark</item>
+        <item name="colorSecondary">@color/civic_accent</item>
+    </style>
+</resources>

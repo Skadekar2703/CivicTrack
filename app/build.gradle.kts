@@ -21,7 +21,9 @@ val imgbbApiKey = (localProperties.getProperty("IMGBB_API_KEY")
     ?: providers.gradleProperty("IMGBB_API_KEY").orNull
     ?: "")
 
-val adminEmail = (localProperties.getProperty("ADMIN_EMAIL")
+val adminEmails = (localProperties.getProperty("ADMIN_EMAILS")
+    ?: providers.gradleProperty("ADMIN_EMAILS").orNull
+    ?: localProperties.getProperty("ADMIN_EMAIL")
     ?: providers.gradleProperty("ADMIN_EMAIL").orNull
     ?: "admin@gmail.com")
 
@@ -45,13 +47,13 @@ android {
         debug {
             buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
             buildConfigField("String", "IMGBB_API_KEY", "\"$imgbbApiKey\"")
-            buildConfigField("String", "ADMIN_EMAIL", "\"$adminEmail\"")
+            buildConfigField("String", "ADMIN_EMAILS", "\"$adminEmails\"")
         }
         release {
             isMinifyEnabled = false
             buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
             buildConfigField("String", "IMGBB_API_KEY", "\"$imgbbApiKey\"")
-            buildConfigField("String", "ADMIN_EMAIL", "\"$adminEmail\"")
+            buildConfigField("String", "ADMIN_EMAILS", "\"$adminEmails\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

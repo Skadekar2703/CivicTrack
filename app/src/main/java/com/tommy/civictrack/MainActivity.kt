@@ -15,6 +15,7 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -36,6 +37,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doAfterTextChanged
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -72,13 +74,18 @@ class MainActivity : AppCompatActivity() {
     private var selectedLocationMode = LocationMode.NONE
     private var activeTab = Screen.FEED
     private var activeFilter = "All Issues"
+    private var searchQuery = ""
     private var detailsIssue: CivicIssue? = null
 
     private val currentUserEmail: String
         get() = firebaseAuth.currentUser?.email.orEmpty()
 
     private val isAdmin: Boolean
-        get() = currentUserEmail.equals(BuildConfig.ADMIN_EMAIL, ignoreCase = true)
+        get() = BuildConfig.ADMIN_EMAILS
+            .split(",")
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .any { it.equals(currentUserEmail, ignoreCase = true) }
 
     private lateinit var contentFrame: FrameLayout
     private lateinit var topBrandIcon: ImageView
@@ -108,6 +115,7 @@ class MainActivity : AppCompatActivity() {
     private var mapLocationButton: MaterialButton? = null
     private var reportLocationText: TextView? = null
     private var reportProgressBar: ProgressBar? = null
+    private var feedListContainer: LinearLayout? = null
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var osmMapView: MapView? = null
@@ -305,7 +313,7 @@ class MainActivity : AppCompatActivity() {
         }
         topAvatar.setOnClickListener {
             hideMapIssueSheet()
-            signOutUser()
+            showProfileMenu()
         }
     }
 
@@ -336,10 +344,11 @@ class MainActivity : AppCompatActivity() {
         }
         root.addView(searchRow())
         root.addView(filterChips())
-
-        filteredIssues().forEach { issue ->
-            root.addView(feedCard(issue))
+        feedListContainer = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
         }
+        root.addView(feedListContainer)
+        renderFeedIssues()
 
         root.addView(bottomSpacer())
         setScreenContent(root, scrollable = true)
@@ -562,8 +571,15 @@ class MainActivity : AppCompatActivity() {
         headerRow.addView(ghostButton("New Report") { showReport() })
         root.addView(headerRow)
 
-        issuesForMyList().forEach { issue ->
-            root.addView(myIssueCard(issue))
+        val myIssues = issuesForMyList()
+        if (myIssues.isEmpty()) {
+            root.addView(centerBody("No issues reported from this account yet.").apply {
+                setPadding(0, 12.dp(), 0, 12.dp())
+            })
+        } else {
+            myIssues.forEach { issue ->
+                root.addView(myIssueCard(issue))
+            }
         }
 
         root.addView(bottomSpacer())
@@ -578,7 +594,7 @@ class MainActivity : AppCompatActivity() {
 
         val root = screenColumn()
         root.addView(detailsHeroCard(issue))
-        root.addView(detailsLocationCard())
+        root.addView(detailsLocationCard(issue))
         root.addView(detailsTimelineCard())
         root.addView(detailsMetaCard(issue))
         root.addView(bottomSpacer())
@@ -590,7 +606,7 @@ class MainActivity : AppCompatActivity() {
             Screen.FEED -> showFeed()
             Screen.MAP -> showMap()
             Screen.REPORT -> showReport()
-            Screen.MY_ISSUES -> showFeed()
+            Screen.MY_ISSUES -> showMyIssues()
             Screen.DETAILS -> detailsIssue?.let { showDetails(resolveIssue(it.id) ?: it) }
         }
     }
@@ -632,6 +648,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showProfileMenu() {
+        PopupMenu(this, topAvatar).apply {
+            menu.add(0, 1, 0, "My Issues")
+            menu.add(0, 2, 1, "Log out")
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    1 -> {
+                        showMyIssues()
+                        true
+                    }
+                    2 -> {
+                        signOutUser()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            show()
+        }
+    }
+
     private fun signOutUser() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -661,15 +698,70 @@ class MainActivity : AppCompatActivity() {
 
     private fun filteredIssues(): List<CivicIssue> {
         val issues = resolveIssues()
-        return when (activeFilter) {
-            "Infrastructure" -> issues.filter { it.category.contains("road", true) || it.category.contains("pothole", true) || it.category.contains("light", true) }
-            "Safety" -> issues.filter { it.priority.equals("High", true) || it.status.contains("review", true) || it.status.contains("progress", true) }
-            "Sanitation" -> issues.filter { it.category.contains("sanitation", true) || it.category.contains("garbage", true) || it.category.contains("waste", true) }
+        val categoryFiltered = when (activeFilter) {
+            "Roads" -> issues.filter {
+                it.category.contains("road", true) ||
+                    it.category.contains("pothole", true) ||
+                    it.title.contains("road", true)
+            }
+            "Lighting" -> issues.filter {
+                it.category.contains("light", true) ||
+                    it.category.contains("streetlight", true) ||
+                    it.title.contains("light", true)
+            }
+            "Sanitation" -> issues.filter {
+                it.category.contains("sanitation", true) ||
+                    it.category.contains("garbage", true) ||
+                    it.category.contains("waste", true) ||
+                    it.title.contains("garbage", true) ||
+                    it.description.contains("waste", true)
+            }
+            "Vandalism" -> issues.filter {
+                it.category.contains("vandal", true) ||
+                    it.title.contains("vandal", true) ||
+                    it.title.contains("graffiti", true) ||
+                    it.description.contains("graffiti", true) ||
+                    it.description.contains("damaged", true)
+            }
             else -> issues
+        }
+
+        if (searchQuery.isBlank()) {
+            return categoryFiltered
+        }
+
+        val query = searchQuery.trim()
+        return categoryFiltered.filter { issue ->
+            issue.title.contains(query, true) ||
+                issue.description.contains(query, true) ||
+                issue.category.contains(query, true) ||
+                issue.status.contains(query, true) ||
+                issue.priority.contains(query, true) ||
+                issue.id.contains(query, true) ||
+                "${issue.latitude.formatCoord()}, ${issue.longitude.formatCoord()}".contains(query, true)
         }
     }
 
-    private fun issuesForMyList(): List<CivicIssue> = currentIssues.take(4)
+    private fun renderFeedIssues() {
+        val container = feedListContainer ?: return
+        container.removeAllViews()
+        val items = filteredIssues()
+        if (items.isEmpty()) {
+            container.addView(centerBody("No issues match your search.").apply {
+                setPadding(0, 12.dp(), 0, 12.dp())
+            })
+            return
+        }
+        items.forEach { issue ->
+            container.addView(feedCard(issue))
+        }
+    }
+
+    private fun issuesForMyList(): List<CivicIssue> {
+        val email = currentUserEmail
+        if (email.isBlank()) return emptyList()
+        return resolveIssues().filter { it.userId.equals(email, ignoreCase = true) }
+    }
 
     private fun resolveIssues(): List<CivicIssue> {
         return currentIssues.ifEmpty {
@@ -903,21 +995,50 @@ class MainActivity : AppCompatActivity() {
         return card
     }
 
-    private fun detailsLocationCard(): MaterialCardView {
+    private fun detailsLocationCard(issue: CivicIssue): MaterialCardView {
         val card = elevatedCard()
         val column = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(18.dp(), 18.dp(), 18.dp(), 18.dp())
         }
         column.addView(sectionLabel("Location"))
-        column.addView(ImageView(this).apply {
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            setImageResource(R.drawable.details_map)
-            background = roundBg(colorRes(R.color.civic_surface_low), 18)
-            clipToOutline = true
-        }, LinearLayout.LayoutParams(matchParent(), 190.dp()))
+        column.addView(detailsLocationMap(issue), LinearLayout.LayoutParams(matchParent(), 190.dp()))
         card.addView(column)
         return card
+    }
+
+    private fun detailsLocationMap(issue: CivicIssue): FrameLayout {
+        val container = FrameLayout(this).apply {
+            background = roundBg(colorRes(R.color.civic_surface_low), 18)
+            clipToOutline = true
+        }
+
+        val map = MapView(this).apply {
+            setTileSource(TileSourceFactory.MAPNIK)
+            setMultiTouchControls(false)
+            setBuiltInZoomControls(false)
+            isTilesScaledToDpi = true
+            setBackgroundColor(colorRes(R.color.civic_surface_low))
+            minZoomLevel = 13.0
+            maxZoomLevel = 18.0
+            controller.setZoom(15.0)
+            controller.setCenter(GeoPoint(issue.latitude, issue.longitude))
+            overlays.clear()
+            overlays.add(
+                Marker(this).apply {
+                    position = GeoPoint(issue.latitude, issue.longitude)
+                    setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                    icon = ContextCompat.getDrawable(
+                        this@MainActivity,
+                        markerDrawable(issue.category)
+                    )
+                    setOnMarkerClickListener { _, _ -> true }
+                }
+            )
+        }
+
+        container.addView(map, FrameLayout.LayoutParams(matchParent(), matchParent()))
+        return container
     }
 
     private fun detailsTimelineCard(): MaterialCardView {
@@ -1326,10 +1447,22 @@ class MainActivity : AppCompatActivity() {
         }, LinearLayout.LayoutParams(20.dp(), 20.dp()).apply {
             rightMargin = 12.dp()
         })
-        addView(TextView(this@MainActivity).apply {
-            text = "Search community issues..."
-            setTextColor(colorRes(R.color.civic_muted))
+        addView(EditText(this@MainActivity).apply {
+            hint = "Search community issues..."
+            setText(searchQuery)
+            setHintTextColor(colorRes(R.color.civic_muted))
+            setTextColor(colorRes(R.color.civic_ink))
             textSize = 16f
+            background = null
+            isSingleLine = true
+            imeOptions = android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
+            doAfterTextChanged { editable ->
+                val updated = editable?.toString().orEmpty()
+                if (updated != searchQuery) {
+                    searchQuery = updated
+                    renderFeedIssues()
+                }
+            }
         }, LinearLayout.LayoutParams(0, wrapContent(), 1f))
     }
 
@@ -1339,7 +1472,7 @@ class MainActivity : AppCompatActivity() {
             setPadding(0, 16.dp(), 0, 18.dp())
         }
 
-        listOf("All Issues", "Infrastructure", "Safety", "Sanitation").forEach { label ->
+        listOf("All Issues", "Roads", "Lighting", "Sanitation", "Vandalism").forEach { label ->
             strip.addView(TextView(this).apply {
                 text = label
                 setTextColor(if (activeFilter == label) colorRes(R.color.white) else colorRes(R.color.civic_muted))
@@ -1674,12 +1807,12 @@ class MainActivity : AppCompatActivity() {
             this.text = text
             textSize = 12f
             setTypeface(typeface, Typeface.BOLD)
-            minHeight = 0
-            minimumHeight = 0
+            minHeight = 36.dp()
+            minimumHeight = 36.dp()
             insetTop = 0
             insetBottom = 0
             cornerRadius = 14.dp()
-            setPadding(12.dp(), 0, 12.dp(), 0)
+            setPadding(14.dp(), 8.dp(), 14.dp(), 8.dp())
             setTextColor(
                 if (destructive) colorRes(R.color.civic_error) else colorRes(R.color.civic_primary)
             )

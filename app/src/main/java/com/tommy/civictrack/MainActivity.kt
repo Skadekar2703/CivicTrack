@@ -87,12 +87,17 @@ class MainActivity : AppCompatActivity() {
             .filter { it.isNotEmpty() }
             .any { it.equals(currentUserEmail, ignoreCase = true) }
 
+    private val canReport: Boolean
+        get() = !isAdmin
+
     private lateinit var contentFrame: FrameLayout
     private lateinit var topBrandIcon: ImageView
     private lateinit var topTitle: TextView
     private lateinit var topBellHost: FrameLayout
     private lateinit var topBell: ImageView
     private lateinit var topBellDot: View
+    private lateinit var topProfileHost: LinearLayout
+    private lateinit var topProfileRole: TextView
     private lateinit var topAvatar: TextView
 
     private lateinit var feedTab: LinearLayout
@@ -119,6 +124,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var osmMapView: MapView? = null
+    private var reportPreviewMapView: MapView? = null
     private var mapBottomSheetBehavior: BottomSheetBehavior<MaterialCardView>? = null
     private var noIssuesText: TextView? = null
     private var mapIssueImage: ImageView? = null
@@ -187,10 +193,12 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         osmMapView?.onResume()
+        reportPreviewMapView?.onResume()
     }
 
     override fun onPause() {
         osmMapView?.onPause()
+        reportPreviewMapView?.onPause()
         super.onPause()
     }
 
@@ -275,6 +283,8 @@ class MainActivity : AppCompatActivity() {
         topBellHost = findViewById(R.id.topBellHost)
         topBell = findViewById(R.id.topBell)
         topBellDot = findViewById(R.id.topBellDot)
+        topProfileHost = findViewById(R.id.topProfileHost)
+        topProfileRole = findViewById(R.id.topProfileRole)
         topAvatar = findViewById(R.id.topAvatar)
 
         feedTab = findViewById(R.id.feedTab)
@@ -299,7 +309,9 @@ class MainActivity : AppCompatActivity() {
         }
         reportTab.setOnClickListener {
             hideMapIssueSheet()
-            showReport()
+            if (canReport) {
+                showReport()
+            }
         }
         topBrandIcon.setOnClickListener {
             hideMapIssueSheet()
@@ -311,7 +323,7 @@ class MainActivity : AppCompatActivity() {
             hideMapIssueSheet()
             toast("Notifications coming soon")
         }
-        topAvatar.setOnClickListener {
+        topProfileHost.setOnClickListener {
             hideMapIssueSheet()
             showProfileMenu()
         }
@@ -524,13 +536,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showReport() {
+        if (!canReport) {
+            showFeed()
+            return
+        }
         activeTab = Screen.REPORT
         detailsIssue = null
         configureHeaderForHome()
         updateBottomNav()
 
         val root = screenColumn()
-        root.addView(headlineBlock("Report New Issue", "Help improve your city by reporting local concerns."))
+        root.addView(headlineBlock("Report New Issue", "Upload an image - AI will analyze and auto-fill details."))
         root.addView(photoUploadCard())
 
         reportProgressBar = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
@@ -568,7 +584,9 @@ class MainActivity : AppCompatActivity() {
             headlineBlock("My Issues", "Track the reports you created and follow updates."),
             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         )
-        headerRow.addView(ghostButton("New Report") { showReport() })
+        if (canReport) {
+            headerRow.addView(ghostButton("New Report") { showReport() })
+        }
         root.addView(headerRow)
 
         val myIssues = issuesForMyList()
@@ -619,7 +637,24 @@ class MainActivity : AppCompatActivity() {
         topBellHost.visibility = View.VISIBLE
         topBell.visibility = View.VISIBLE
         topBellDot.visibility = View.VISIBLE
-        topAvatar.visibility = View.VISIBLE
+        topProfileHost.visibility = View.VISIBLE
+        topProfileRole.text = if (isAdmin) "ADMIN" else "USER"
+        topProfileRole.background = if (isAdmin) {
+            roundStrokeBg(
+                colorRes(R.color.civic_warning_bg),
+                colorRes(R.color.civic_warning),
+                999
+            )
+        } else {
+            roundStrokeBg(
+                colorRes(R.color.civic_progress_bg),
+                colorRes(R.color.civic_primary),
+                999
+            )
+        }
+        topProfileRole.setTextColor(
+            if (isAdmin) colorRes(R.color.civic_warning) else colorRes(R.color.civic_primary)
+        )
         topAvatar.text = avatarInitials()
         topAvatar.background = roundStrokeBg(colorRes(R.color.civic_surface_low), colorRes(R.color.civic_outline), 20)
         topBrandIcon.setPadding(0, 0, 0, 0)
@@ -633,7 +668,7 @@ class MainActivity : AppCompatActivity() {
         topBellHost.visibility = View.VISIBLE
         topBell.visibility = View.VISIBLE
         topBellDot.visibility = View.GONE
-        topAvatar.visibility = View.GONE
+        topProfileHost.visibility = View.GONE
     }
 
     private fun avatarInitials(): String {
@@ -649,9 +684,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showProfileMenu() {
-        PopupMenu(this, topAvatar).apply {
-            menu.add(0, 1, 0, "My Issues")
-            menu.add(0, 2, 1, "Log out")
+        PopupMenu(this, topProfileHost).apply {
+            if (!isAdmin) {
+                menu.add(0, 1, 0, "My Issues")
+            }
+            menu.add(0, 2, if (isAdmin) 0 else 1, "Log out")
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     1 -> {
@@ -683,9 +720,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateBottomNav() {
         val selected = if (activeTab == Screen.DETAILS) Screen.FEED else activeTab
+        reportTab.visibility = if (canReport) View.VISIBLE else View.GONE
         updateTab(feedTab, feedIcon, feedLabel, selected == Screen.FEED)
         updateTab(mapTab, mapIcon, mapLabel, selected == Screen.MAP)
-        updateTab(reportTab, reportIcon, reportLabel, selected == Screen.REPORT)
+        if (canReport) {
+            updateTab(reportTab, reportIcon, reportLabel, selected == Screen.REPORT)
+        }
     }
 
     private fun updateTab(container: LinearLayout, icon: ImageView, label: TextView, selected: Boolean) {
@@ -1093,12 +1133,6 @@ class MainActivity : AppCompatActivity() {
             setOnClickListener { imagePicker.launch("image/*") }
         }
 
-        uploadPanel.addView(ImageView(this).apply {
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            setImageResource(R.drawable.report_upload_bg)
-            alpha = 0.10f
-        }, FrameLayout.LayoutParams(matchParent(), 220.dp()))
-
         val center = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER
@@ -1239,13 +1273,21 @@ class MainActivity : AppCompatActivity() {
             bottomMargin = 14.dp()
         })
 
-        val mapFrame = FrameLayout(this)
-        mapFrame.addView(ImageView(this).apply {
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            setImageResource(R.drawable.report_map)
+        val mapFrame = FrameLayout(this).apply {
             background = roundBg(colorRes(R.color.civic_surface_low), 18)
             clipToOutline = true
-        }, FrameLayout.LayoutParams(matchParent(), 172.dp()))
+        }
+        reportPreviewMapView = MapView(this).apply {
+            setTileSource(TileSourceFactory.MAPNIK)
+            setMultiTouchControls(false)
+            setBuiltInZoomControls(false)
+            isTilesScaledToDpi = true
+            minZoomLevel = 12.0
+            maxZoomLevel = 18.0
+            controller.setZoom(15.0)
+            controller.setCenter(DEFAULT_CITY)
+        }
+        mapFrame.addView(reportPreviewMapView, FrameLayout.LayoutParams(matchParent(), 172.dp()))
         reportLocationText = TextView(this).apply {
             setTextColor(colorRes(R.color.white))
             textSize = 13f
@@ -1262,6 +1304,7 @@ class MainActivity : AppCompatActivity() {
         card.addView(column)
         updateLocationLabel()
         updateLocationModeButtons()
+        updateReportLocationPreviewMap()
         return card
     }
 
@@ -1325,6 +1368,7 @@ class MainActivity : AppCompatActivity() {
         updateSelectedPhotoState()
         updateLocationLabel()
         updateLocationModeButtons()
+        updateReportLocationPreviewMap()
     }
 
     private fun updateSelectedPhotoState() {
@@ -1361,6 +1405,7 @@ class MainActivity : AppCompatActivity() {
         selectedLocationMode = mode
         updateLocationLabel()
         updateLocationModeButtons()
+        updateReportLocationPreviewMap()
     }
 
     private fun captureCurrentLocation(after: () -> Unit) {
@@ -1392,6 +1437,9 @@ class MainActivity : AppCompatActivity() {
             osmMapView = null
             hideMapIssueSheet()
         }
+        if (activeTab != Screen.REPORT) {
+            reportPreviewMapView = null
+        }
         contentFrame.removeAllViews()
         (view.parent as? ViewGroup)?.removeView(view)
         if (scrollable) {
@@ -1399,6 +1447,30 @@ class MainActivity : AppCompatActivity() {
         } else {
             contentFrame.addView(view)
         }
+    }
+
+    private fun updateReportLocationPreviewMap() {
+        val map = reportPreviewMapView ?: return
+        val point = selectedLocation?.let { GeoPoint(it.latitude, it.longitude) } ?: DEFAULT_CITY
+        map.overlays.removeAll { overlay -> overlay is Marker }
+        map.controller.setCenter(point)
+        map.controller.setZoom(if (selectedLocation != null) 15.5 else DEFAULT_CITY_ZOOM.toDouble())
+        map.overlays.add(
+            Marker(map).apply {
+                position = point
+                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                icon = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    if (selectedLocationMode == LocationMode.CURRENT) {
+                        R.drawable.ic_my_location
+                    } else {
+                        R.drawable.ic_location_pin
+                    }
+                )
+                setOnMarkerClickListener { _, _ -> true }
+            }
+        )
+        map.invalidate()
     }
 
     private fun screenColumn(): LinearLayout = LinearLayout(this).apply {

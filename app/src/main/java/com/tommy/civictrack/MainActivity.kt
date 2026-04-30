@@ -1054,28 +1054,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         val map = MapView(this).apply {
-            setTileSource(TileSourceFactory.MAPNIK)
-            setMultiTouchControls(false)
-            setBuiltInZoomControls(false)
-            isTilesScaledToDpi = true
-            setBackgroundColor(colorRes(R.color.civic_surface_low))
-            minZoomLevel = 13.0
-            maxZoomLevel = 18.0
-            controller.setZoom(15.0)
-            controller.setCenter(GeoPoint(issue.latitude, issue.longitude))
-            overlays.clear()
-            overlays.add(
-                Marker(this).apply {
-                    position = GeoPoint(issue.latitude, issue.longitude)
-                    setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                    icon = ContextCompat.getDrawable(
-                        this@MainActivity,
-                        markerDrawable(issue.category)
-                    )
-                    setOnMarkerClickListener { _, _ -> true }
-                }
-            )
+            configureMiniMap(this, GeoPoint(issue.latitude, issue.longitude), 15.0)
         }
+        renderMiniMapMarker(map, GeoPoint(issue.latitude, issue.longitude), markerDrawable(issue.category))
 
         container.addView(map, FrameLayout.LayoutParams(matchParent(), matchParent()))
         return container
@@ -1278,14 +1259,7 @@ class MainActivity : AppCompatActivity() {
             clipToOutline = true
         }
         reportPreviewMapView = MapView(this).apply {
-            setTileSource(TileSourceFactory.MAPNIK)
-            setMultiTouchControls(false)
-            setBuiltInZoomControls(false)
-            isTilesScaledToDpi = true
-            minZoomLevel = 12.0
-            maxZoomLevel = 18.0
-            controller.setZoom(15.0)
-            controller.setCenter(DEFAULT_CITY)
+            configureMiniMap(this, DEFAULT_CITY, DEFAULT_CITY_ZOOM.toDouble())
         }
         mapFrame.addView(reportPreviewMapView, FrameLayout.LayoutParams(matchParent(), 172.dp()))
         reportLocationText = TextView(this).apply {
@@ -1452,25 +1426,42 @@ class MainActivity : AppCompatActivity() {
     private fun updateReportLocationPreviewMap() {
         val map = reportPreviewMapView ?: return
         val point = selectedLocation?.let { GeoPoint(it.latitude, it.longitude) } ?: DEFAULT_CITY
+        configureMiniMap(map, point, if (selectedLocation != null) 15.0 else DEFAULT_CITY_ZOOM.toDouble())
+        if (selectedLocation != null) {
+            renderMiniMapMarker(map, point, reportMarkerDrawable())
+        } else {
+            map.invalidate()
+        }
+    }
+
+    private fun configureMiniMap(map: MapView, center: GeoPoint, zoom: Double) {
+        map.setTileSource(TileSourceFactory.MAPNIK)
+        map.setMultiTouchControls(false)
+        map.setBuiltInZoomControls(false)
+        map.isTilesScaledToDpi = true
+        map.setBackgroundColor(colorRes(R.color.civic_surface_low))
+        map.minZoomLevel = 12.0
+        map.maxZoomLevel = 18.0
+        map.controller.setZoom(zoom)
+        map.controller.setCenter(center)
         map.overlays.removeAll { overlay -> overlay is Marker }
-        map.controller.setCenter(point)
-        map.controller.setZoom(if (selectedLocation != null) 15.5 else DEFAULT_CITY_ZOOM.toDouble())
+    }
+
+    private fun renderMiniMapMarker(map: MapView, point: GeoPoint, markerRes: Int) {
         map.overlays.add(
             Marker(map).apply {
                 position = point
                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                icon = ContextCompat.getDrawable(
-                    this@MainActivity,
-                    if (selectedLocationMode == LocationMode.CURRENT) {
-                        R.drawable.ic_my_location
-                    } else {
-                        R.drawable.ic_location_pin
-                    }
-                )
+                icon = ContextCompat.getDrawable(this@MainActivity, markerRes)
                 setOnMarkerClickListener { _, _ -> true }
             }
         )
         map.invalidate()
+    }
+
+    private fun reportMarkerDrawable(): Int {
+        val category = reportCategorySpinner?.selectedItem?.toString().orEmpty()
+        return markerDrawable(category)
     }
 
     private fun screenColumn(): LinearLayout = LinearLayout(this).apply {

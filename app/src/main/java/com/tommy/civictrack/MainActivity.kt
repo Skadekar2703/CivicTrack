@@ -27,7 +27,6 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -1933,7 +1932,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun Double.formatCoord(): String = String.format(Locale.US, "%.5f", this)
 
-    private fun toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun toast(message: String) = showTextToast(message)
 
     private enum class Screen {
         FEED,

@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -137,11 +136,11 @@ class AiIssueReportActivity : AppCompatActivity() {
                 }
                 is ReportUiState.SubmitSuccess -> {
                     statusText.text = "Issue saved to Firestore. ID: ${state.issueId}"
-                    Toast.makeText(this, "Issue submitted", Toast.LENGTH_SHORT).show()
+                    showTextToast("Issue submitted")
                 }
                 is ReportUiState.Error -> {
                     statusText.text = state.message
-                    Toast.makeText(this, state.message, Toast.LENGTH_LONG).show()
+                    showTextToast(state.message, android.widget.Toast.LENGTH_LONG)
                 }
             }
         }
@@ -154,7 +153,7 @@ class AiIssueReportActivity : AppCompatActivity() {
         }
         val uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
         if (uri == null) {
-            Toast.makeText(this, "Could not create camera image", Toast.LENGTH_SHORT).show()
+            showTextToast("Could not create camera image")
             return
         }
         selectedImageUri = uri
@@ -164,14 +163,14 @@ class AiIssueReportActivity : AppCompatActivity() {
     private fun submitIssue() {
         val imageUrl = uploadedImageUrl
         if (imageUrl.isBlank()) {
-            Toast.makeText(this, "Process an image first", Toast.LENGTH_SHORT).show()
+            showTextToast("Process an image first")
             return
         }
 
         val latitude = latitudeInput.text.toString().toDoubleOrNull()
         val longitude = longitudeInput.text.toString().toDoubleOrNull()
         if (latitude == null || longitude == null) {
-            Toast.makeText(this, "Enter valid latitude and longitude", Toast.LENGTH_SHORT).show()
+            showTextToast("Enter valid latitude and longitude")
             return
         }
 

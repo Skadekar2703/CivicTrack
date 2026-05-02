@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -169,7 +168,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showError(message: String) {
         setLoading(false)
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        showTextToast(message)
     }
 
     private fun setLoading(loading: Boolean) {

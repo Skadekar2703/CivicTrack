@@ -25,18 +25,16 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_civic_brand"
-                android:tint="@color/civic_primary" />
+                android:src="@drawable/ic_civic_brand" />
         </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="sans-serif-light"
             android:letterSpacing="-0.03"
-            android:text="CIVICTRACK"
-            android:textAllCaps="true"
+            android:text="@string/app_name"
             android:textColor="@color/white"
             android:textSize="34sp" />
 

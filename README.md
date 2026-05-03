@@ -84,6 +84,20 @@ IMGBB_API_KEY=your_key_here
 
 ---
 
+## 🔐 Admin Demo Credentials
+
+To test admin features, use the following demo accounts:
+
+Email IDs:
+- demo1@gmail.com  
+- demo2@gmail.com  
+- demo3@gmail.com  
+
+Password:
+123456
+
+> Note: These are test accounts created for demo purposes only.
+
 ## 🔐 Security Note
 
 * API keys and sensitive data are not included in the repository
